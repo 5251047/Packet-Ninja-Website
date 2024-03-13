@@ -8,10 +8,9 @@ exports.handler = async (event, context) => {
 
   try {
       const data = JSON.parse(event.body);
-      const scores = data && data.data ? data.data : [];
+      const scores = data && Array.isArray(data.data) ? data.data : [];
 
       console.log('Received scores:', scores); // Log the received scores
-
       // Prepare HTML response
       const htmlResponse = `
           <!DOCTYPE html>
@@ -59,12 +58,12 @@ exports.handler = async (event, context) => {
           </html>
       `;
 
-      return {
+        return {
           statusCode: 200,
           headers: {
-              'Content-Type': 'text/html',
+              'Content-Type': 'application/json',
           },
-          body: htmlResponse
+          body: JSON.stringify(scores)
       };
   } catch (error) {
       console.error('Error:', error);
@@ -73,4 +72,4 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'Internal Server Error' })
       };
   }
-};
+}
