@@ -12,6 +12,8 @@
     </ul>
 
     <script>
+        let previousScores = [];
+
         function updateScores(scores) {
             var scoresList = document.getElementById("scores");
             scoresList.innerHTML = ""; // Clear previous scores
@@ -39,7 +41,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                updateScores(data);
+                if (JSON.stringify(data) !== JSON.stringify(previousScores)) {
+                    updateScores(data);
+                    previousScores = data;
+                }
             })
             .catch(error => console.error('Error fetching scores:', error));
         }
