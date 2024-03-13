@@ -1,0 +1,8 @@
+[build]
+  functions = "functions" # Directory where Netlify should look for your functions
+
+[[plugins]]
+  package = "netlify-plugin-functions-install"
+
+[[plugins]]
+  package = "netlify-plugin-function-builder"
