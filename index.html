@@ -32,7 +32,9 @@
                 body: JSON.stringify({})
             })
             .then(response => response.json())
-            .then(data => updateScores(data.data))
+            .then(data => {
+                updateScores(data);
+            })
             .catch(error => console.error('Error fetching scores:', error));
         }
 
