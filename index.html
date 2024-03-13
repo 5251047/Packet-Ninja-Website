@@ -16,11 +16,17 @@
             var scoresList = document.getElementById("scores");
             scoresList.innerHTML = ""; // Clear previous scores
 
-            scores.forEach(function(score) {
+            if (scores.length === 0) {
                 var listItem = document.createElement("li");
-                listItem.textContent = score.name + " : " + score.score;
+                listItem.textContent = "No scores available";
                 scoresList.appendChild(listItem);
-            });
+            } else {
+                scores.forEach(function(score) {
+                    var listItem = document.createElement("li");
+                    listItem.textContent = score.name + " : " + score.score;
+                    scoresList.appendChild(listItem);
+                });
+            }
         }
 
         function fetchScores() {
