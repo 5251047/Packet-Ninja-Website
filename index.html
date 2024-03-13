@@ -12,8 +12,6 @@
     </ul>
 
     <script>
-        let previousScores = null;
-
         function updateScores(scores) {
             var scoresList = document.getElementById("scores");
             scoresList.innerHTML = ""; // Clear previous scores
@@ -46,12 +44,17 @@
                 return response.json();
             })
             .then(data => {
-                if (JSON.stringify(data) !== JSON.stringify(previousScores)) {
-                    updateScores(data);
-                    previousScores = data;
-                }
+                updateScores(data);
+                localStorage.setItem('scores', JSON.stringify(data)); // Save scores to localStorage
             })
-            .catch(error => console.error('Error fetching scores:', error));
+            .catch(error => {
+                console.error('Error fetching scores:', error);
+                // If there's an error, try to load scores from localStorage
+                const savedScores = localStorage.getItem('scores');
+                if (savedScores) {
+                    updateScores(JSON.parse(savedScores));
+                }
+            });
         }
 
         // Initial update
