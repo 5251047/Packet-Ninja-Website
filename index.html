@@ -23,17 +23,24 @@
             });
         }
 
-        // Initial update
-        fetch("/scores") // Change this URL to match the endpoint on your server
+        function fetchScores() {
+            fetch("/.netlify/functions/updateScores", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
+            })
             .then(response => response.json())
-            .then(data => updateScores(data));
+            .then(data => updateScores(data.data))
+            .catch(error => console.error('Error fetching scores:', error));
+        }
 
-        // Poll for updates every 5 seconds
-        setInterval(function() {
-            fetch("/scores") // Change this URL to match the endpoint on your server
-                .then(response => response.json())
-                .then(data => updateScores(data));
-        }, 5000);
+        // Initial update
+        fetchScores();
+
+        // Poll for updates every 5 seconds (for demonstration purposes)
+        setInterval(fetchScores, 5000);
     </script>
 </body>
 </html>
