@@ -10,6 +10,8 @@ exports.handler = async (event, context) => {
       const data = JSON.parse(event.body);
       const scores = data && data.data ? data.data : [];
 
+      console.log('Received scores:', scores); // Log the received scores
+
       // Prepare HTML response
       const htmlResponse = `
           <!DOCTYPE html>
