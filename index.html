@@ -7,40 +7,33 @@
 </head>
 <body>
     <h1>Scores</h1>
-    <ul id="scores-list">
-        <!-- Scores will be dynamically added here -->
+    <ul id="scores">
+        <!-- Scores will be dynamically inserted here -->
     </ul>
 
     <script>
         function updateScores(scores) {
-            var scoresList = document.getElementById('scores-list');
-            scoresList.innerHTML = '';
+            var scoresList = document.getElementById("scores");
+            scoresList.innerHTML = ""; // Clear previous scores
 
-            for (var name in scores) {
-                var score = scores[name];
-                var listItem = document.createElement('li');
-                listItem.textContent = name + ": " + score;
+            scores.forEach(function(score) {
+                var listItem = document.createElement("li");
+                listItem.textContent = score.name + " : " + score.score;
                 scoresList.appendChild(listItem);
-            }
+            });
         }
 
-        function fetchScores() {
-            fetch('scores.txt')
-                .then(response => response.text())
-                .then(data => {
-                    var scores = {};
-                    var lines = data.split('\n');
-                    lines.forEach(line => {
-                        var parts = line.split(' : ');
-                        var name = parts[0].trim();
-                        var score = parseInt(parts[1].trim());
-                        scores[name] = score;
-                    });
-                    updateScores(scores);
-                });
-        }
+        // Initial update
+        fetch("/scores") // Change this URL to match the endpoint on your server
+            .then(response => response.json())
+            .then(data => updateScores(data));
 
-        fetchScores();
+        // Poll for updates every 5 seconds
+        setInterval(function() {
+            fetch("/scores") // Change this URL to match the endpoint on your server
+                .then(response => response.json())
+                .then(data => updateScores(data));
+        }, 5000);
     </script>
 </body>
 </html>
