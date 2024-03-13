@@ -2,7 +2,7 @@
   functions = "functions" # Directory where Netlify should look for your functions
 
 [[plugins]]
-  package = "netlify-plugin-functions-install"
+  package = "netlify-plugin-function-builder"
 
 [[plugins]]
-  package = "netlify-plugin-function-builder"
+  package = "netlify-plugin-functions-install"
