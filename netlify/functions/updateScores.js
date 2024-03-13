@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
 
   try {
       const data = JSON.parse(event.body);
-      const scores = data.data;
+      const scores = data && data.data ? data.data : [];
 
       // Prepare HTML response
       const htmlResponse = `
@@ -46,10 +46,11 @@ exports.handler = async (event, context) => {
                           headers: {
                               'Content-Type': 'application/json',
                           },
-                          body: JSON.stringify(${JSON.stringify(data)})
+                          body: JSON.stringify({})
                       })
                       .then(response => response.json())
-                      .then(data => updateScores(data.data));
+                      .then(data => updateScores(data.data))
+                      .catch(error => console.error('Error fetching scores:', error));
                   }, 5000);
               </script>
           </body>
