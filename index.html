@@ -30,7 +30,7 @@
         }
 
         function fetchScores() {
-            fetch("/.netlify/functions/updateScores", {
+            fetch("https://packetninja.online/.netlify/functions/updateScores", { // Assuming your server is deployed at /scores endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
