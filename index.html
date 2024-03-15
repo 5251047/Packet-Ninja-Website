@@ -53,8 +53,14 @@
             })
             .catch(error => {
                 console.error('Error fetching scores:', error);
-                console.log('Response status:', error.response.status);
                 
+                // Check if error.response exists before accessing its properties
+                if (error.response && error.response.status) {
+                    console.log('Response status:', error.response.status);
+                } else {
+                    console.log('Error response status is not available.');
+                }
+
                 // If there's an error, try to load scores from localStorage
                 const savedScores = localStorage.getItem('scores');
                 if (savedScores) {
