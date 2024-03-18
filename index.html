@@ -1,79 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+  <head>
     <title>Scores</title>
-</head>
-<body>
+    <style>
+      #score-container {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
     <h1>Scores</h1>
-    <ul id="scores">
-        <!-- Scores will be dynamically inserted here -->
-    </ul>
-
-    <script>
-        function updateScores(scores) {
-            var scoresList = document.getElementById("scores");
-            scoresList.innerHTML = ""; // Clear previous scores
-
-            if (scores.length === 0) {
-                var listItem = document.createElement("li");
-                listItem.textContent = "No scores available";
-                scoresList.appendChild(listItem);
-            } else {
-                scores.forEach(function(score) {
-                    var listItem = document.createElement("li");
-                    listItem.textContent = score.name + " : " + score.score;
-                    scoresList.appendChild(listItem);
-                });
-            }
-        }
-
-        function fetchScores() {
-            fetch("https://packetninja.online/.netlify/functions/updateScores", { // Assuming your server is deployed at /scores endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data && data.length > 0) {
-                    updateScores(data);
-                    localStorage.setItem('scores', JSON.stringify(data)); // Save scores to localStorage
-                } else {
-                    console.log('Received empty or invalid scores data.');
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching scores:', error);
-                
-                // Check if error.response exists before accessing its properties
-                if (error.response && error.response.status) {
-                    console.log('Response status:', error.response.status);
-                } else {
-                    console.log('Error response status is not available.');
-                }
-
-                // If there's an error, try to load scores from localStorage
-                const savedScores = localStorage.getItem('scores');
-                if (savedScores) {
-                    updateScores(JSON.parse(savedScores));
-                }
-            });
-        }
-
-        // Initial update
-        fetchScores();
-
-        // Poll for updates every 5 seconds (for demonstration purposes)
-        setInterval(fetchScores, 5000);
-    </script>
-</body>
+    <div id="score-container">
+      <!-- Score list will be inserted here -->
+    </div>
+  </body>
 </html>
