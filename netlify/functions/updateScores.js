@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
   const scores = JSON.parse(event.body);
 
   // Read the existing HTML file
-  const htmlFilePath = path.join(process.cwd(), 'public', 'index.html');
+  const htmlFilePath = path.join(__dirname, 'public', 'index.html');
   let htmlContent;
   try {
     htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
