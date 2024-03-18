@@ -1,41 +1,28 @@
-let previousScores = []; // Define previousScores outside the handler function
-
+// functions/updateScores.js
 exports.handler = async (event, context) => {
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ message: 'Method Not Allowed' })
-        };
-    }
-
+    const { data } = JSON.parse(event.body);
+    const fs = require('fs');
+    const path = require('path');
+  
     try {
-        const data = JSON.parse(event.body);
-        const scores = data && Array.isArray(data.data) ? data.data : [];
-
-        console.log('Received scores:', scores); // Log the received scores
-
-        // Check if the received scores are different from the previous scores
-        if (JSON.stringify(scores) !== JSON.stringify(previousScores)) {
-            previousScores = scores;
-            return {
-                statusCode: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(scores)
-            };
-        } else {
-            // If scores are same as previous, return an empty response
-            return {
-                statusCode: 204, // No Content
-                body: ''
-            };
-        }
+      // Get the file path
+      const filePath = path.join(process.cwd(), 'scores.txt');
+  
+      // Append scores to the file
+      for (const { name, score } of data) {
+        const line = `${name}:${score}\n`;
+        fs.appendFileSync(filePath, line);
+      }
+  
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Scores updated successfully' }),
+      };
     } catch (error) {
-        console.error('Error:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ message: 'Internal Server Error' })
-        };
+      console.error('Error updating scores:', error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Error updating scores' }),
+      };
     }
-};
+  };
