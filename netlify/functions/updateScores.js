@@ -1,46 +1,41 @@
-// netlify/functions/update_scores.js
-const fs = require('fs');
-const path = require('path');
+let previousScores = []; // Define previousScores outside the handler function
 
 exports.handler = async (event, context) => {
-  const scores = JSON.parse(event.body);
+    if (event.httpMethod !== 'POST') {
+        return {
+            statusCode: 405,
+            body: JSON.stringify({ message: 'Method Not Allowed' })
+        };
+    }
 
-  // Read the existing HTML file
-  const htmlFilePath = path.join(process.cwd(), 'public', 'index.html');
-  let htmlContent;
-  try {
-    htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-  } catch (err) {
-    console.error('Error reading HTML file:', err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Error reading HTML file' }),
-    };
-  }
+    try {
+        const data = JSON.parse(event.body);
+        const scores = data && Array.isArray(data.data) ? data.data : [];
 
-  // Generate the updated score list HTML
-  const scoreList = scores.map(({ name, score }) => `<li>${name}: ${score}</li>`).join('');
-  const updatedScoreListHtml = `<ul id="score-list">${scoreList}</ul>`;
+        console.log('Received scores:', scores); // Log the received scores
 
-  // Update the HTML content with the new score list
-  const updatedHtmlContent = htmlContent.replace(
-    /(<div id="score-container">)([\s\S]*?)(<\/div>)/,
-    `$1\n${updatedScoreListHtml}\n$3`
-  );
-
-  // Write the updated HTML content back to the file
-  try {
-    fs.writeFileSync(htmlFilePath, updatedHtmlContent);
-  } catch (err) {
-    console.error('Error writing HTML file:', err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Error writing HTML file' }),
-    };
-  }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: 'Scores updated successfully' }),
-  };
+        // Check if the received scores are different from the previous scores
+        if (JSON.stringify(scores) !== JSON.stringify(previousScores)) {
+            previousScores = scores;
+            return {
+                statusCode: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(scores)
+            };
+        } else {
+            // If scores are same as previous, return an empty response
+            return {
+                statusCode: 204, // No Content
+                body: ''
+            };
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: 'Internal Server Error' })
+        };
+    }
 };
