@@ -75086,12 +75086,15 @@ if(r<10){s.r=r+1
 s.A0()
 r=s.w
 if(r!=null)r.aE(0)
+s.w=null
 if(s.y>0)s.Ld()}else{r=s.w
 if(r!=null)r.aE(0)
+s.w=null
 s.z=!0
 s.af()}},
 yx(a){var s=this,r=s.w
 if(r!=null)r.aE(0)
+s.w=null
 s.y=a
 s.f=0
 s.r=1
@@ -75133,11 +75136,11 @@ q=this.a
 r=A.ajC(o,new A.hh(4,B.eA,B.kT),o,o,o,o,o,o,!0,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,"Your Answer",o,o,o,o,o,o,o,o,o,o,o,o,o)
 m.push(A.Dr(A.b([s,p,new A.dL(B.lQ,new A.xY(q.c,r,B.L8,B.Km,B.Kn,!0,o),o),A.Wg(A.dq("Submit",o,o,o,o,o,o),new A.XM(q,b)),A.dq("Score: "+b.f,o,o,o,A.dX(o,o,o,o,o,o,o,o,o,o,o,24,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o)],n),B.cG,B.fz,B.fB))}if(b.z)m.push(A.Dr(A.b([A.dq("Game Over!",o,o,o,A.dX(o,o,o,o,o,o,o,o,o,o,o,32,o,o,B.iI,o,o,!0,o,o,o,o,o,o,o,o),o,o),A.fL(o,20,o),A.dq("Final Score: "+b.f,o,o,o,A.dX(o,o,o,o,o,o,o,o,o,o,o,24,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o),A.fL(o,20,o),A.dq("Select a level to try again",o,o,o,A.dX(o,o,o,o,o,o,o,o,o,o,o,24,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o)],n),B.cG,B.fz,B.fB))
 m.push(A.fL(o,40,o))
-m.push(A.Wg(A.dq("Level 0",o,o,o,o,o,o),new A.XN(b)))
+m.push(A.Wg(A.dq("Start Level 0",o,o,o,o,o,o),new A.XN(b)))
 m.push(A.fL(o,10,o))
-m.push(A.Wg(A.dq("Level 1",o,o,o,o,o,o),new A.XO(b)))
+m.push(A.Wg(A.dq("Start Level 1",o,o,o,o,o,o),new A.XO(b)))
 m.push(A.fL(o,10,o))
-m.push(A.Wg(A.dq("Level 2",o,o,o,o,o,o),new A.XP(b)))
+m.push(A.Wg(A.dq("Start Level 2",o,o,o,o,o,o),new A.XP(b)))
 return A.Dr(m,B.cG,B.fz,B.fB)},
 $C:"$3",
 $R:3,
